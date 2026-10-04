@@ -1,4 +1,5 @@
 import io
+from pathlib import Path
 
 import pandas as pd
 import streamlit as st
@@ -10,19 +11,29 @@ st.set_page_config(page_title="AeroGuard AI", layout="wide")
 st.title("AeroGuard AI: Aerial Object Detection Dashboard")
 st.caption("YOLOv8n trained on VisDrone (mAP50 = 0.307)")
 
+BASE_DIR = Path(__file__).parent
+MODEL_NAMES = ["best_final.pt", "best.pt"]  # first one found is used
+
 
 # ---------- Load the model once ----------
 @st.cache_resource
 def load_model():
-    return YOLO("best_final.pt")  # keep this file next to app.py
+    for name in MODEL_NAMES:
+        path = BASE_DIR / name
+        if path.exists():
+            return YOLO(str(path))
+    return None
 
 
 model = load_model()
+if model is None:
+    st.error("Model file not found. Upload best.pt (or best_final.pt) next to app.py.")
+    st.stop()
 
 # ---------- Sidebar controls ----------
 st.sidebar.header("Settings")
 conf = st.sidebar.slider("Confidence threshold", 0.10, 0.90, 0.25, 0.05)
-imgsz = st.sidebar.selectbox("Image size", [640, 960, 1280], index=2)
+imgsz = st.sidebar.selectbox("Image size", [640, 960, 1280], index=0)
 show_labels = st.sidebar.checkbox("Show labels on image", value=False)
 
 # ---------- Upload ----------
