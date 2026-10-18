@@ -11,3 +11,7 @@ Repo me ye files replace / add karo (best.pt, packages.txt, results/ wahi rehne 
 
 Local run:  `pip install -r requirements.txt`  then  `streamlit run app.py`
 Streamlit Cloud: GitHub par push karo, app khud redeploy ho jati hai.
+
+## Video test
+`python make_test_video.py drone_photo.jpg test_video.mp4` se kisi bhi drone photo se test video banao,
+phir app ke "Video analysis" tab me upload karo.
