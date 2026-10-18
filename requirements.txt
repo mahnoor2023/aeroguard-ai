@@ -2,3 +2,8 @@ streamlit
 ultralytics
 pandas
 pillow
+streamlit
+ultralytics
+pandas
+pillow
+lapx
